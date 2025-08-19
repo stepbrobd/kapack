@@ -1,11 +1,7 @@
 # If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
 { pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/22.05.tar.gz";
-    sha256 = "0d643wp3l77hv2pmg2fi7vyxn4rwy0iyr8djcw1h5x72315ck9ik";
-  }) {}
-, pkgs-2111 ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/21.11.tar.gz";
-    sha256 = "162dywda2dvfj1248afxc45kcrg83appjd0nmdb541hl7rnncf02";
+    url = "https://github.com/NixOS/nixpkgs/archive/branch-off-24.11.tar.gz";
+    sha256 = "1gx0hihb7kcddv5h0k7dysp2xhf1ny0aalxhjbpj2lmvj7h9g80a";
   }) {}
 , debug ? false
 }:
@@ -30,22 +26,17 @@ rec {
     '';
   });
 
-  libpowercap = pkgs.callPackage ./pkgs/libpowercap { };
-
   haskellPackages = import ./pkgs/haskellPackages { inherit pkgs; };
 
-  batsched-130 = pkgs-2111.callPackage ./pkgs/batsched/batsched130.nix { inherit debug; loguru = loguru-oldnixpkgs; intervalset = intervalsetlight; redox = redox-oldnixpkgs; };
   batsched-140 = pkgs.callPackage ./pkgs/batsched/batsched140.nix { inherit loguru redox debug; intervalset = intervalsetlight; };
   batsched = batsched-140;
 
-  batexpe = pkgs.callPackage ./pkgs/batexpe { };
+  # Need to switch from 'buildGoPackage' to 'buildGoModule'
+  #batexpe = pkgs.callPackage ./pkgs/batexpe { };
 
-  batprotocol-cpp = pkgs.callPackage ./pkgs/batprotocol/cpp.nix { inherit flatbuffers debug; };
-
-  batsim-310 = pkgs-2111.callPackage ./pkgs/batsim/batsim310.nix { inherit debug; simgrid = simgrid-324; intervalset = intervalsetlight; redox = redox-oldnixpkgs; };
-  batsim-400 = pkgs.callPackage ./pkgs/batsim/batsim400.nix { inherit redox debug; simgrid = simgrid-325light; intervalset = intervalsetlight; };
-  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; simgrid = simgrid-332light; intervalset = intervalsetlight; };
-  batsim = batsim-410;
+  batsim-410 = pkgs.callPackage ./pkgs/batsim/batsim410.nix { inherit redox debug; simgrid = simgrid-334light; intervalset = intervalsetlight; };
+  batsim-420 = pkgs.callPackage ./pkgs/batsim/batsim420.nix { inherit redox debug; simgrid = simgrid-334light; intervalset = intervalsetlight; };
+  batsim = batsim-420;
   batsim-docker = pkgs.callPackage ./pkgs/batsim/batsim-docker.nix { inherit batsim; };
 
   elastisim = pkgs.callPackage ./pkgs/elastisim { };
@@ -62,41 +53,56 @@ rec {
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
-  colmet = pkgs.callPackage ./pkgs/colmet { inherit libpowercap; };
+  alumet = pkgs.callPackage ./pkgs/alumet { };
+    
+  colmet = pkgs.callPackage ./pkgs/colmet { };
 
+  # TODO to remove when alumet package is finalized
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 
   colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
 
-  dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
+  #dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
+
+  dispath = pkgs.callPackage ./pkgs/dispath { };
+
+  distem = pkgs.callPackage ./pkgs/distem { };
 
   ear =  pkgs.callPackage ./pkgs/ear { };
+
+  enoslib = pkgs.callPackage ./pkgs/enoslib { inherit execo iotlabsshcli distem python-grid5000; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
   execo = pkgs.callPackage ./pkgs/execo { };
 
-  flatbuffers = pkgs.callPackage ./pkgs/flatbuffers/2.0.nix { };
+  flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
+
+  iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
+  iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli parallel-ssh; };
 
   likwid = pkgs.callPackage ./pkgs/likwid { };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
 
-  npb =  pkgs.callPackage ./pkgs/npb { };
+  mlxp = pkgs.callPackage ./pkgs/mlxp { };
 
-  go-swagger  = pkgs.callPackage ./pkgs/go-swagger { };
+  npb =  pkgs.callPackage ./pkgs/npb { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
-  gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
+  # Need to switch from 'buildGoPackage' to 'buildGoModule'
+  #gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
 
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
   intervalsetlight = pkgs.callPackage ./pkgs/intervalset { withoutBoostPropagation = true; };
 
-  kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
+  iterators = pkgs.callPackage ./pkgs/iterators { };
 
-  loguru-oldnixpkgs = pkgs-2111.callPackage ./pkgs/loguru { inherit debug; };
+  # Need to switch from 'buildGoPackage' to 'buildGoModule'
+  #kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
+
   loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
 
   procset = pkgs.callPackage ./pkgs/procset { };
@@ -118,7 +124,6 @@ rec {
 
   python-mip = pkgs.callPackage ./pkgs/python-mip { };
 
-  redox-oldnixpkgs = pkgs-2111.callPackage ./pkgs/redox { };
   redox = pkgs.callPackage ./pkgs/redox { };
 
   remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
@@ -127,35 +132,42 @@ rec {
 
   cigri = pkgs.callPackage ./pkgs/cigri { };
 
-  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb; };
+  oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; };
 
+  oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
+  
   oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
+  
+  oar3-plugins = oar-plugins;
 
-  rsg-030 = pkgs.callPackage ./pkgs/remote-simgrid/rsg030.nix { inherit debug ; simgrid = simgrid-326; };
-  rsg = rsg-030;
+  #oar-with-plugins = oar.override { enablePlugins = true; };
+  oar-with-plugins = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; enablePlugins = true; };
 
-  # simgrid-3(24->26) compiles with glibc from nixpkgs-21.09 but not with more recent nixpkgs versions
-  simgrid-324 = pkgs-2111.callPackage ./pkgs/simgrid/simgrid324.nix { inherit debug; };
-  simgrid-325 = pkgs-2111.callPackage ./pkgs/simgrid/simgrid325.nix { inherit debug; };
-  simgrid-326 = pkgs-2111.callPackage ./pkgs/simgrid/simgrid326.nix { inherit debug; };
+
   simgrid-327 = pkgs.callPackage ./pkgs/simgrid/simgrid327.nix { inherit debug; };
   simgrid-328 = pkgs.callPackage ./pkgs/simgrid/simgrid328.nix { inherit debug; };
   simgrid-329 = pkgs.callPackage ./pkgs/simgrid/simgrid329.nix { inherit debug; };
   simgrid-330 = pkgs.callPackage ./pkgs/simgrid/simgrid330.nix { inherit debug; };
   simgrid-331 = pkgs.callPackage ./pkgs/simgrid/simgrid331.nix { inherit debug; };
   simgrid-332 = pkgs.callPackage ./pkgs/simgrid/simgrid332.nix { inherit debug; };
-  simgrid-325light = simgrid-325.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
-  simgrid-326light = simgrid-326.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
+  simgrid-334 = pkgs.callPackage ./pkgs/simgrid/simgrid334.nix { inherit debug; };
+  simgrid-335 = pkgs.callPackage ./pkgs/simgrid/simgrid335.nix { inherit debug; };
+  simgrid-336 = pkgs.callPackage ./pkgs/simgrid/simgrid336.nix { inherit debug; };
+  simgrid-400 = pkgs.callPackage ./pkgs/simgrid/simgrid400.nix { inherit debug; };
   simgrid-327light = simgrid-327.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-328light = simgrid-328.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-329light = simgrid-329.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; };
   simgrid-330light = simgrid-330.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
   simgrid-331light = simgrid-331.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
   simgrid-332light = simgrid-332.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
-  simgrid = simgrid-332;
-  simgrid-light = simgrid-332light;
+  simgrid-334light = simgrid-334.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
+  simgrid-335light = simgrid-335.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; };
+  simgrid-336light = simgrid-336.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; modelCheckingSupport = false; };
+  simgrid-400light = simgrid-400.override { minimalBindings = true; withoutBin = true; withoutBoostPropagation = true; buildPythonBindings = false; modelCheckingSupport = false; };
+  simgrid = simgrid-400;
+  simgrid-light = simgrid-400light;
 
   # Setting needed for nixos-19.03 and nixos-19.09
   slurm-bsc-simulator =
@@ -182,9 +194,22 @@ rec {
     ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
+    meta.broken = true;
   });
+
+  ssh-python = pkgs.callPackage ./pkgs/ssh-python { };
+  ssh2-python = pkgs.callPackage ./pkgs/ssh2-python { };
+
+  parallel-ssh = pkgs.callPackage ./pkgs/parallel-ssh { inherit ssh-python ssh2-python; };
+
+  python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
+
+  starpu = pkgs.callPackage ./pkgs/starpu { };
 
   wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
 
-  yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
+  wirerope = pkgs.callPackage ./pkgs/wirerope { };
+
+  # Need to switch from 'buildGoPackage' to 'buildGoModule'
+  #yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
 }

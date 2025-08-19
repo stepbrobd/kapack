@@ -23,7 +23,7 @@ in
 
   ###### interface
   
-  meta.maintainers = [ maintainers.augu5te ];
+  meta.maintainers = [];
 
   options = {
     services.cigri = {
@@ -128,6 +128,14 @@ in
         web = {
           enable = mkEnableOption "Web server to serve rest-api";
         };
+
+        cycleDuration = mkOption {
+          type = types.int;
+          default = 15;
+          description = ''
+            Sampling period of CiGri
+          '';
+        };
       
       };
       
@@ -150,7 +158,7 @@ in
     environment.etc."cigri/cigri-base.conf" = { mode = "0600"; source = cigriBaseConf; };
     environment.etc."cigri/api-clients.conf" = mkIf cfg.client.enable {source = cigriApiClientsConf; };
 
-    environment.systemPackages =  [ pkgs.nur.repos.kapack.cigri ];
+    environment.systemPackages =  [ cfg.package ];
     # cigri user declaration
     users.users.cigri = mkIf cfg.server.enable {
       description = "CiGri user";
@@ -219,7 +227,8 @@ in
         KillMode = "process";
         Restart = "on-failure";
         WorkingDirectory = "${cfg.package}/share/cigri/api";
-        ExecStart = "${cfg.package.rubyEnv}/bin/unicorn -d -c ${unicornConfig} -E production";
+        # ExecStart = "${cfg.package.rubyEnv}/bin/unicorn -d -c ${unicornConfig} -E production";
+        ExecStart = "${cfg.package.rubyEnv}/bin/unicorn -c ${unicornConfig} -E production";
       };
     };
     
@@ -235,9 +244,9 @@ in
         
           # Deny access by default, except from localhost
 
-          Order deny,allow
-          Allow from             ${cfg.server.host}
-          Deny from all
+          # Order deny,allow
+          # Allow from ${cfg.server.host}
+          # Deny from all
           # Pidentd is a simple and efficient way to authentify unix users on a cigri frontend
           <IfModule ident_module>
             IdentityCheck On

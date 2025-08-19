@@ -1,4 +1,4 @@
-{ lib, python3Packages, poetry, procset }:
+{ lib, python3Packages, procset }:
 
 python3Packages.buildPythonPackage rec {
   pname = "pybatsim";
@@ -9,9 +9,10 @@ python3Packages.buildPythonPackage rec {
       inherit pname version;
       sha256 = "1gxvjnriklllj4qmiyvg8cf9ilwkpsh4p37kihgwgrgzgxr658ab";
     };
+  patches = [ ./321-0001-bs-loosen-pyzmq-version-constraint.patch ];
 
   buildInputs = with python3Packages; [
-    poetry
+    poetry-core
   ];
   propagatedBuildInputs = with python3Packages; [
     docopt

@@ -9,7 +9,7 @@ in
 
   ###### interface
   
-  meta.maintainers = [ maintainers.augu5te ];
+  meta.maintainers = [];
 
   options = {
     services.my-startup = {
@@ -23,7 +23,7 @@ in
       };
 
       path =  mkOption {
-        type = types.path;
+        type = types.listOf types.path;
         default = [ ];
         description = "Path to tools used by provided script";
       };

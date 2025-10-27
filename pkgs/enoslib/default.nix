@@ -4,6 +4,8 @@
 python3Packages.buildPythonPackage rec {
   pname = "enoslib";
   version = "10.1.0";
+  format = "setuptools";
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     owner = "discovery";

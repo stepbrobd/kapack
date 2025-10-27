@@ -3,6 +3,8 @@
 python3Packages.buildPythonPackage rec {
   pname = "enoslib-ansible";
   version = "10.1.0.0";
+  format = "setuptools";
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     owner = "discovery";

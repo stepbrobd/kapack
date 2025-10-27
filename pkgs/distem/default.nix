@@ -3,6 +3,8 @@
 python3Packages.buildPythonPackage rec {
   pname = "distem";
   version = "0.0.5";
+  format = "setuptools";
+
   src = fetchFromGitLab {
     domain = "gitlab.inria.fr";
     owner = "myriads-team";

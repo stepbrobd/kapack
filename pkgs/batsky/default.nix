@@ -3,6 +3,7 @@
 python3Packages.buildPythonApplication rec {
   pname = "batsky";
   version = "0.1.0";
+  format = "setuptools";
 
   #src = fetchgit {
   #  url = /home/auguste/dev/batsky;

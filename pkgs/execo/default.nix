@@ -3,6 +3,7 @@
 python3Packages.buildPythonPackage rec {
   pname = "execo";
   version = "2.8.2";
+  format = "setuptools";
 
   src = python3Packages.fetchPypi {
     inherit pname version;

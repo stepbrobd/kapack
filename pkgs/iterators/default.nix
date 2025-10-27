@@ -3,6 +3,7 @@
 python3Packages.buildPythonPackage rec {
   pname = "iterators";
   version = "0.0.2";
+  format = "setuptools";
 
   src = python3Packages.fetchPypi {
     inherit pname version;

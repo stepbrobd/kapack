@@ -3,6 +3,7 @@
 python3Packages.buildPythonApplication rec {
   name = "colmet-collector-${version}";
   version = "0.0.1";
+  format = "setuptools";
 
   src = fetchFromGitHub {
     owner = "oar-team";

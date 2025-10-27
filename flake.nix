@@ -1,9 +1,7 @@
 {
-  description = " My personal NUR repository";
-  inputs = {
-    flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:nixos/nixpkgs/25.05";
-  };
+  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
   outputs = { self, nixpkgs, flake-utils }:
     let
       systems = [

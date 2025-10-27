@@ -3,6 +3,7 @@
 python3Packages.buildPythonPackage rec {
   name = "procset-${version}";
   version = "v1.0";
+  format = "setuptools";
 
   src = fetchgit {
     url = "https://gitlab.inria.fr/bleuse/procset.py.git";

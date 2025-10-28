@@ -1,13 +1,13 @@
 { lib, inputs, ... }:
 
 let
-  inherit (lib) importPackagesWith mkDynamicAttrs;
+  inherit (lib) filterPackages importPackagesWith mkDynamicAttrs;
 in
 {
-  perSystem = { pkgs, ... }: {
-    packages = mkDynamicAttrs {
+  perSystem = { pkgs, system, ... }: {
+    packages = /* filterPackages system */ (mkDynamicAttrs {
       dir = ../../pkgs;
       fun = name: importPackagesWith (pkgs // { inherit inputs lib; }) (../../pkgs/. + "/${name}") { };
-    };
+    });
   };
 }

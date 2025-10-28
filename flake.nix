@@ -1,32 +1,21 @@
 {
-  inputs.flake-utils.url = "github:numtide/flake-utils";
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  outputs = inputs: inputs.parts.lib.mkFlake { inherit inputs; } {
+    systems = import inputs.systems;
 
-  outputs = { self, nixpkgs, flake-utils }:
-    let
-      systems = [
-        "x86_64-linux"
-        "i686-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-        "armv6l-linux"
-        "armv7l-linux"
-      ];
-      inherit (flake-utils.lib) eachSystem filterPackages;
+    flake.nixosModules =
+      builtins.mapAttrs (name: path: import path) (import ./modules);
 
-    in eachSystem systems (system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowBroken = true; # FIXME
-        };
-      in {
-        packages = (filterPackages system (import ./nur.nix { inherit pkgs; }));
-        lib = import ./lib { inherit pkgs; };
-      }) // {
-        nixosModules =
-          builtins.mapAttrs (name: path: import path) (import ./modules);
-        overlay = import ./overlay.nix;
-      };
+    perSystem = { lib, pkgs, ... }: {
+      packages = import ./nur.nix { inherit pkgs; };
+
+      formatter = pkgs.writeShellScriptBin "formatter" ''
+        ${lib.getExe pkgs.nixpkgs-fmt} .
+      '';
+    };
+  };
+
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+  inputs.parts.url = "github:hercules-ci/flake-parts";
+  inputs.parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+  inputs.systems.url = "github:nix-systems/default";
 }

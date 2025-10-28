@@ -1,18 +1,21 @@
-# If called without explicitly setting the 'pkgs' arg, a pinned nixpkgs version is used by default.
-{ pkgs ? import (fetchTarball {
-    url = "https://github.com/NixOS/nixpkgs/archive/branch-off-24.11.tar.gz";
-    sha256 = "1gx0hihb7kcddv5h0k7dysp2xhf1ny0aalxhjbpj2lmvj7h9g80a";
-  }) {}
-, debug ? false
+{ debug ? false
+, pkgs ? import
+    (fetchTarball
+      (
+        let
+          inherit ((builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked) rev narHash;
+        in
+        {
+          url = "https://github.com/nixos/nixpkgs/archive/${rev}.tar.gz";
+          sha256 = narHash;
+        }
+      ))
+    { system = builtins.currentSystem; }
+, lib ? pkgs.lib
+, ...
 }:
 
-rec {
-  # The `lib`, `modules`, and `overlay` names are special
-  lib = import ./lib { inherit pkgs; }; # functions
-  modules = import ./modules; # NixOS modules
-  overlays = import ./overlays; # nixpkgs overlays
-  inherit pkgs;
-
+lib.fix (self: with self; {
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
     patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
@@ -204,4 +207,4 @@ rec {
 
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #yamldiff = pkgs.callPackage ./pkgs/yamldiff { };
-}
+})

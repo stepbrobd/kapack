@@ -5,14 +5,14 @@ rustPlatform.buildRustPackage rec {
   version = "0.8.4";
 
   src = fetchFromGitHub {
-     owner = "alumet-dev";
-     repo = pname;
-     rev = "v${version}";
-     hash = "sha256-9lh6eg5B3d9vx80QGj5qXkgYWfmvkGrGqknUlI4HkOE=";
+    owner = "alumet-dev";
+    repo = pname;
+    rev = "v${version}";
+    hash = "sha256-9lh6eg5B3d9vx80QGj5qXkgYWfmvkGrGqknUlI4HkOE=";
   };
 
   cargoHash = "sha256-+4aILPaxIm9vYr2MF1BuO6TUOQlEa+BMfe8qeMdZ5Og=";
-  
+
   env = {
     OPENSSL_NO_VENDOR = 1;
     OPENSSL_LIB_DIR = "${lib.getLib openssl}/lib";

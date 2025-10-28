@@ -14,6 +14,6 @@ python3Packages.buildPythonPackage rec {
     description = "Provides a wrapper class TimeoutIterator to add timeout feature to normal iterators";
     homepage = "https://github.com/leangaurav/pypi_iterator";
     license = licenses.mit;
-    maintainers = [];
+    maintainers = [ ];
   };
 }

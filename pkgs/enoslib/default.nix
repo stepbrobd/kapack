@@ -1,5 +1,13 @@
-{ lib, python3Packages, fetchFromGitLab, ansible, python-grid5000, iotlabsshcli, enoslib-ansible
-, distem, iotlabcli }:
+{ lib
+, python3Packages
+, fetchFromGitLab
+, ansible
+, python-grid5000
+, iotlabsshcli
+, enoslib-ansible
+, distem
+, iotlabcli
+}:
 
 python3Packages.buildPythonPackage rec {
   pname = "enoslib";

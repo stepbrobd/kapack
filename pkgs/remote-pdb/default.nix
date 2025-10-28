@@ -1,4 +1,4 @@
-{ lib, pkgs, fetchurl, python3Packages}:
+{ lib, pkgs, fetchurl, python3Packages }:
 
 python3Packages.buildPythonPackage rec {
   pname = "remote-pdb";
@@ -15,11 +15,11 @@ python3Packages.buildPythonPackage rec {
   doCheck = false;
   meta = with lib; {
     longDescription = ''
-     .'';
+      .'';
     description = ''Remote vanilla PDB (over TCP sockets).'';
-    homepage    = "https://github.com/ionelmc/python-remote-pdb/blob/master/setup.py";
-    platforms   = platforms.unix;
-    license     = licenses.bsd2;
-    broken      = false;
+    homepage = "https://github.com/ionelmc/python-remote-pdb/blob/master/setup.py";
+    platforms = platforms.unix;
+    license = licenses.bsd2;
+    broken = false;
   };
 }

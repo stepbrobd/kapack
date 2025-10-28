@@ -8,36 +8,36 @@ in
 {
 
   ###### interface
-  
-  meta.maintainers = [];
+
+  meta.maintainers = [ ];
 
   options = {
     services.my-startup = {
 
       enable = mkEnableOption "My startup ";
-      
-      script =  mkOption {
-          type = types.str;
-          default = "/etc/my-startup.sh";
-          description = "Script File to execute a start time";
+
+      script = mkOption {
+        type = types.str;
+        default = "/etc/my-startup.sh";
+        description = "Script File to execute a start time";
       };
 
-      path =  mkOption {
+      path = mkOption {
         type = types.listOf types.path;
         default = [ ];
         description = "Path to tools used by provided script";
       };
-      
+
     };
   };
 
   ###### implementation
-  
-  config =  mkIf ( cfg.enable)  {
+
+  config = mkIf (cfg.enable) {
     systemd.services.my-startup = {
       description = "My startup";
       wantedBy = [ "multi-user.target" ];
-      after = [ "network.target"];
+      after = [ "network.target" ];
       path = cfg.path;
       serviceConfig.Type = "oneshot";
       script = cfg.script;

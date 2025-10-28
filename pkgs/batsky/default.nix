@@ -31,9 +31,9 @@ python3Packages.buildPythonApplication rec {
 
   meta = with lib; {
     description = "";
-    homepage    = https://github.com/oar-team/batsky;
-    platforms   = python3Packages.pyinotify.meta.platforms;
-    licence     = licenses.gpl2;
+    homepage = https://github.com/oar-team/batsky;
+    platforms = python3Packages.pyinotify.meta.platforms;
+    licence = licenses.gpl2;
     longDescription = ''
     '';
   };

@@ -4,7 +4,8 @@ with lib;
 
 let
   cfg = config.services.batsky;
-in {
+in
+{
   #meta.maintainers = [ maintainers.augu5ste ];
 
   ###### interface
@@ -38,7 +39,7 @@ in {
         Basic options for controller.
       '';
     };
-    
+
   };
 
   ###### implementation

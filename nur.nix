@@ -18,8 +18,10 @@
 lib.fix (self: with self; {
   glibc-batsky = pkgs.glibc.overrideAttrs (attrs: {
     meta.broken = true;
-    patches = attrs.patches ++ [ ./pkgs/glibc-batsky/clock_gettime.patch
-      ./pkgs/glibc-batsky/gettimeofday.patch ];
+    patches = attrs.patches ++ [
+      ./pkgs/glibc-batsky/clock_gettime.patch
+      ./pkgs/glibc-batsky/gettimeofday.patch
+    ];
     postConfigure = ''
       export NIX_CFLAGS_LINK=
       export NIX_LDFLAGS_BEFORE=
@@ -43,14 +45,14 @@ lib.fix (self: with self; {
 
   batsky = pkgs.callPackage ./pkgs/batsky { };
 
-  cpp-driver = pkgs.callPackage ./pkgs/cpp-driver {};
+  cpp-driver = pkgs.callPackage ./pkgs/cpp-driver { };
 
-  scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver {};
+  scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver { };
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
   alumet = pkgs.callPackage ./pkgs/alumet { };
-    
+
   colmet = pkgs.callPackage ./pkgs/colmet { };
 
   # TODO to remove when alumet package is finalized
@@ -64,7 +66,7 @@ lib.fix (self: with self; {
 
   distem = pkgs.callPackage ./pkgs/distem { };
 
-  ear =  pkgs.callPackage ./pkgs/ear { };
+  ear = pkgs.callPackage ./pkgs/ear { };
 
   enoslib-ansible = pkgs.callPackage ./pkgs/enoslib-ansible { };
   enoslib = pkgs.callPackage ./pkgs/enoslib { inherit iotlabcli iotlabsshcli distem python-grid5000 enoslib-ansible; };
@@ -87,7 +89,7 @@ lib.fix (self: with self; {
 
   mlxp = pkgs.callPackage ./pkgs/mlxp { };
 
-  npb =  pkgs.callPackage ./pkgs/npb { };
+  npb = pkgs.callPackage ./pkgs/npb { };
 
   gocov = pkgs.callPackage ./pkgs/gocov { };
 
@@ -106,7 +108,7 @@ lib.fix (self: with self; {
 
   procset = pkgs.callPackage ./pkgs/procset { };
 
-  mosquitto-dcdb = pkgs.callPackage ./pkgs/mosquitto-dcdb {};
+  mosquitto-dcdb = pkgs.callPackage ./pkgs/mosquitto-dcdb { };
 
   nxc = pkgs.callPackage ./pkgs/nxc { inherit execo; };
 
@@ -133,11 +135,11 @@ lib.fix (self: with self; {
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; };
 
   oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
-  
+
   oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
-  
+
   oar3-plugins = oar-plugins;
 
   #oar-with-plugins = oar.override { enablePlugins = true; };
@@ -181,7 +183,7 @@ lib.fix (self: with self; {
   #slurm-bsc-simulator-v14 = slurm-bsc-simulator.override { version="14"; };
 
   slurm-multiple-slurmd = pkgs.slurm.overrideAttrs (oldAttrs: {
-    configureFlags = oldAttrs.configureFlags ++ ["--enable-multiple-slurmd" "--enable-silent-rules"];
+    configureFlags = oldAttrs.configureFlags ++ [ "--enable-multiple-slurmd" "--enable-silent-rules" ];
     meta.platforms = pkgs.lib.lists.intersectLists pkgs.rdma-core.meta.platforms
       pkgs.ghc.meta.platforms;
   });

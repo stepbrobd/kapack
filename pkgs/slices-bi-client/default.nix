@@ -17,7 +17,8 @@ python3Packages.buildPythonPackage rec {
   propagatedBuildInputs = with python3Packages; [
     httpx
     httpx-oauth
-    msgspec[toml]
+    msgspec
+    [ toml ]
     pyjwt
     tomlkit
     authlib

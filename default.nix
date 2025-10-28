@@ -32,4 +32,4 @@ let
     simgrid-light-master = pkgs.callPackage ./pkgs/simgrid/master.nix { simgrid = nur-pkgs.simgrid-light; };
   };
 in
-  nur-pkgs // master-pkgs
+nur-pkgs // master-pkgs

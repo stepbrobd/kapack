@@ -23,7 +23,7 @@ buildGoPackage rec {
     homepage = "https://github.com/kubernetes-sigs/kube-batch";
     description = "The Kubernetes Native Serverless Framework";
     license = licenses.asl20;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     platforms = platforms.unix;
     broken = true;
   };

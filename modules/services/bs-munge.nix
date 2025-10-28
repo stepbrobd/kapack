@@ -11,7 +11,7 @@ let
     echo mungeverryweakkeybuteasytointegratoinatest >  ${cfg.password}
     chmod 0400 ${cfg.password}
     chown munge:munge ${cfg.password}
-  '';  
+  '';
 in
 
 {
@@ -42,12 +42,12 @@ in
     environment.systemPackages = [ pkgs.munge ];
 
     users.users.munge = {
-      description   = "Munge daemon user";
-      isSystemUser  = true;
-      group         = "munge";
+      description = "Munge daemon user";
+      isSystemUser = true;
+      group = "munge";
     };
 
-    users.groups.munge = {};
+    users.groups.munge = { };
 
     systemd.services.bs-munged = {
       wantedBy = [ "multi-user.target" ];

@@ -121,7 +121,7 @@ in
 {
   ###### interface
 
-  meta.maintainers = [];
+  meta.maintainers = [ ];
 
   options = {
     services.oar = {
@@ -134,7 +134,7 @@ in
 
       plugins = mkOption {
         type = types.listOf types.package;
-        default = [];
+        default = [ ];
         defaultText = "[]";
         description = "List of plugins packages";
       };
@@ -210,7 +210,7 @@ in
           example = "touch /etc/foo";
           type = types.lines;
           description = ''
-          Shell commands to be executed just after OAR DB initialization.
+            Shell commands to be executed just after OAR DB initialization.
           '';
         };
       };
@@ -315,7 +315,7 @@ in
     (cfg.client.enable || cfg.node.enable || cfg.server.enable
       || cfg.dbserver.enable)
     {
-      environment.variables.OAR_TOOLS = "${oarTools}"; 
+      environment.variables.OAR_TOOLS = "${oarTools}";
       environment.etc."oar/oar-base.conf" = {
         mode = "0600";
         source = oarBaseConf;
@@ -503,23 +503,24 @@ in
       ################
       # Server Section
       systemd.services.oar-server =
-      let
+        let
           pythonEnv = (pkgs.python3.withPackages (ps: [ cfg.package ] ++ cfg.plugins));
-      in mkIf (cfg.server.enable) {
-        wantedBy = [ "multi-user.target" ];
-        after = [ "network.target" ];
-        description = "OAR server's main processes";
-        restartIfChanged = false;
-        environment.OARDIR = "${pythonEnv}/bin";
-        serviceConfig = {
-          User = "oar";
-          Group = "oar";
-          ExecStart = "${cfg.package}/bin/oar-almighty";
-          KillMode = "process";
-          Restart = "on-failure";
-          RestartSec = "1s";
+        in
+        mkIf (cfg.server.enable) {
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network.target" ];
+          description = "OAR server's main processes";
+          restartIfChanged = false;
+          environment.OARDIR = "${pythonEnv}/bin";
+          serviceConfig = {
+            User = "oar";
+            Group = "oar";
+            ExecStart = "${cfg.package}/bin/oar-almighty";
+            KillMode = "process";
+            Restart = "on-failure";
+            RestartSec = "1s";
+          };
         };
-      };
 
       ##################
       # Database section

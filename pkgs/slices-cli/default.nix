@@ -1,4 +1,8 @@
-{ lib, python3Packages, fetchurl ,slices-bi-client, ssh-known-hosts-edit
+{ lib
+, python3Packages
+, fetchurl
+, slices-bi-client
+, ssh-known-hosts-edit
 }:
 
 python3Packages.buildPythonPackage rec {
@@ -28,7 +32,7 @@ python3Packages.buildPythonPackage rec {
     pyjson5
     pytz
     pyyaml
-  ] ++ [ 
+  ] ++ [
     ssh-known-hosts-edit
     slices-bi-client
   ];

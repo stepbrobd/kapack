@@ -56,55 +56,29 @@ lib.fix (self: with self; {
 
   elastisim = pkgs.callPackage ./pkgs/elastisim { };
 
-  batsky = pkgs.callPackage ./pkgs/batsky { };
-
   cpp-driver = pkgs.callPackage ./pkgs/cpp-driver { };
 
   scylladb-cpp-driver = pkgs.callPackage ./pkgs/scylladb-cpp-driver { };
 
   bacnet-stack = pkgs.callPackage ./pkgs/bacnet-stack { };
 
-  alumet = pkgs.callPackage ./pkgs/alumet { };
-
-  colmet = pkgs.callPackage ./pkgs/colmet { };
-
   # TODO to remove when alumet package is finalized
   colmet-rs = pkgs.callPackage ./pkgs/colmet-rs { };
 
-  colmet-collector = pkgs.callPackage ./pkgs/colmet-collector { };
-
   #dcdb = pkgs.callPackage ./pkgs/dcdb { inherit scylladb-cpp-driver bacnet-stack mosquitto-dcdb; };
-
-  dispath = pkgs.callPackage ./pkgs/dispath { };
-
-  distem = pkgs.callPackage ./pkgs/distem { };
 
   ear = pkgs.callPackage ./pkgs/ear { };
 
-  enoslib-ansible = pkgs.callPackage ./pkgs/enoslib-ansible { };
   enoslib = pkgs.callPackage ./pkgs/enoslib { inherit iotlabcli iotlabsshcli distem python-grid5000 enoslib-ansible; };
 
   evalys = pkgs.callPackage ./pkgs/evalys { inherit procset; };
 
-  execo = pkgs.callPackage ./pkgs/execo { };
-
   flower = pkgs.callPackage ./pkgs/flower { inherit iterators; };
 
-  iotlabcli = pkgs.callPackage ./pkgs/iotlabcli { };
   iotlabsshcli = pkgs.callPackage ./pkgs/iotlabsshcli { inherit iotlabcli; };
-
-  jFed = pkgs.callPackage ./pkgs/jFed { };
-
-  likwid = pkgs.callPackage ./pkgs/likwid { };
 
   melissa = pkgs.callPackage ./pkgs/melissa { };
   melissa-heat-pde = pkgs.callPackage ./pkgs/melissa-heat-pde { inherit melissa; };
-
-  mlxp = pkgs.callPackage ./pkgs/mlxp { };
-
-  npb = pkgs.callPackage ./pkgs/npb { };
-
-  gocov = pkgs.callPackage ./pkgs/gocov { };
 
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #gocovmerge = pkgs.callPackage ./pkgs/gocovmerge { };
@@ -112,14 +86,8 @@ lib.fix (self: with self; {
   intervalset = pkgs.callPackage ./pkgs/intervalset { };
   intervalsetlight = pkgs.callPackage ./pkgs/intervalset { withoutBoostPropagation = true; };
 
-  iterators = pkgs.callPackage ./pkgs/iterators { };
-
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #kube-batch = pkgs.callPackage ./pkgs/kube-batch { };
-
-  loguru = pkgs.callPackage ./pkgs/loguru { inherit debug; };
-
-  procset = pkgs.callPackage ./pkgs/procset { };
 
   mosquitto-dcdb = pkgs.callPackage ./pkgs/mosquitto-dcdb { };
 
@@ -135,21 +103,13 @@ lib.fix (self: with self; {
   pybatsim-core = pybatsim-core-400;
   pybatsim-functional = pybatsim-functional-400;
 
-  python-mip = pkgs.callPackage ./pkgs/python-mip { };
-
   redox = pkgs.callPackage ./pkgs/redox { };
 
-  remote_pdb = pkgs.callPackage ./pkgs/remote-pdb { };
-
   rt-tests = pkgs.callPackage ./pkgs/rt-tests { };
-
-  cigri = pkgs.callPackage ./pkgs/cigri { };
 
   oar = pkgs.callPackage ./pkgs/oar { inherit procset pybatsim remote_pdb oar-plugins; };
 
   oar-plugins = pkgs.callPackage ./pkgs/oar-plugins { inherit procset pybatsim remote_pdb oar; };
-
-  oar2 = pkgs.callPackage ./pkgs/oar2 { };
 
   oar3 = oar;
 
@@ -182,8 +142,6 @@ lib.fix (self: with self; {
   simgrid = simgrid-400;
   simgrid-light = simgrid-400light;
 
-  ssh-known-hosts-edit = pkgs.callPackage ./pkgs/ssh-known-hosts-edit { };
-  slices-bi-client = pkgs.callPackage ./pkgs/slices-bi-client { };
   slices-cli = pkgs.callPackage ./pkgs/slices-cli { inherit slices-bi-client ssh-known-hosts-edit; };
 
   # Setting needed for nixos-19.03 and nixos-19.09
@@ -213,12 +171,6 @@ lib.fix (self: with self; {
       pkgs.ghc.meta.platforms;
     meta.broken = true;
   });
-
-  python-grid5000 = pkgs.callPackage ./pkgs/python-grid5000 { };
-
-  starpu = pkgs.callPackage ./pkgs/starpu { };
-
-  wait-for-it = pkgs.callPackage ./pkgs/wait-for-it { };
 
   # Need to switch from 'buildGoPackage' to 'buildGoModule'
   #yamldiff = pkgs.callPackage ./pkgs/yamldiff { };

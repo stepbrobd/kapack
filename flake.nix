@@ -6,7 +6,7 @@
       builtins.mapAttrs (name: path: import path) (import ./modules);
 
     perSystem = { lib, pkgs, ... }: {
-      packages = import ./nur.nix { inherit pkgs; };
+      packages = import ./default.nix { inherit pkgs; };
 
       formatter = pkgs.writeShellScriptBin "formatter" ''
         ${lib.getExe pkgs.nixpkgs-fmt} .
